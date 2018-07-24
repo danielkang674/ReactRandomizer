@@ -56,3 +56,8 @@ select{
 input{
   font-size: 2.5rem;
 }
+
+div#root{
+  margin: auto;
+  width: 70%;
+}
