@@ -1,4 +1,4 @@
-# ReactRandomizer
+# React Randomizer
 
 https://danielkang674.github.io/ReactRandomizer/
 
