@@ -195,8 +195,8 @@
                 <p>Enter items OR List name</p>
                 <form onSubmit={(event)=>{this.addItem(); event.preventDefault();}}>
                   <div className="input-group input-group-lg text">
-                    <Input value={this.state.value} handleChange={this.handleChange} name="value" />
                     <div className="input-group-append">
+                      <Input value={this.state.value} handleChange={this.handleChange} name="value" />
                       <button type="submit" value="Submit">Submit</button>
                     </div>
                   </div>
