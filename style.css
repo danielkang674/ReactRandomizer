@@ -12,20 +12,20 @@ html, body, h1, h2, h4, h5, h6, p, div {
   color: #4EB1BA;
 }
 h1{
-  font-size: 2rem;
+  font-size: 3rem;
 }
 p{
-  font-size: 1rem;
+  font-size: 2rem;
   margin: 0;
 }
 
 h3{
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   margin-top: 1rem;
 }
 .listText{
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 button{
@@ -33,7 +33,7 @@ button{
   color: #FFB6C1;
   background-color: #181617;
   border: 1px solid #FFB6C1;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 
@@ -42,26 +42,44 @@ body{
 }
 
 label{
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 .input-group.input-group-lg.text{
   margin-bottom: 1rem;
 }
 
+.input-group.input-group-lg.select{
+  margin-bottom: 1rem;
+}
+
 select{
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 input{
-  font-size: 1rem;
+  font-size: 2rem;
+}
+
+div#root{
+  margin: auto;
+  width: 80%;
 }
 
 
 /* Everything else bigger */
-@media only screen and (min-width: 600px){
+@media only screen and (max-width: 660px){
   div#root{
     margin: auto;
-    width: 80%;
+    width: 100%;
+  }
+  p, .listText, button, label, select, input{
+    font-size: 1rem;
+  }
+  h1{
+    font-size: 2rem;
+  }
+  h3{
+    font-size: 1.5rem;
   }
 }
