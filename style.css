@@ -12,20 +12,20 @@ html, body, h1, h2, h4, h5, h6, p, div {
   color: #4EB1BA;
 }
 h1{
-  font-size: 3rem;
+  font-size: 2rem;
 }
 p{
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin: 0;
 }
 
 h3{
   font-weight: 400;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: 1rem;
 }
 .listText{
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 button{
@@ -33,7 +33,7 @@ button{
   color: #FFB6C1;
   background-color: #181617;
   border: 1px solid #FFB6C1;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 
@@ -42,7 +42,7 @@ body{
 }
 
 label{
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .input-group.input-group-lg.text{
@@ -50,11 +50,11 @@ label{
 }
 
 select{
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 input{
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 
