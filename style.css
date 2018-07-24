@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+ol{
+  font-family: 'Lato', sans-serif;
+  color: #E9E9E9;
+  margin-bottom: 1rem;
+}
+
+
+html, body, h1, h2, h4, h5, h6, p, div {
+  font-family: 'Lato', sans-serif;
+  color: #4EB1BA;
+}
+h1{
+  font-size: 5rem;
+}
+p{
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+h3{
+  font-weight: 400;
+  font-size: 3.5rem;
+  margin-top: 1rem;
+}
+.listText{
+  font-size: 2.5rem;
+}
+
+button{
+  font-family: 'Lato', sans-serif;
+  color: #FFB6C1;
+  background-color: #181617;
+  border: 1px solid #FFB6C1;
+  font-size: 2.5rem;
+}
+
+
+body{
+  background-color: #181617;
+}
+
+label{
+  font-size: 2.5rem;
+}
+
+.input-group.input-group-lg.text{
+  margin-bottom: 1rem;
+}
+
+select{
+  font-size: 2.5rem;
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>React Randomizer</title>
+  </head>
+  <body>
+      <div id="root"></div>
+      <script type="text/babel">
+        var model = {};
+        if(localStorage.getItem("model") && localStorage.getItem("listArray") && localStorage.getItem("listName")){
+          model.list = JSON.parse(localStorage.getItem("model"));
+          model.listArray = JSON.parse(localStorage.getItem("listArray"));
+          model.listName = JSON.parse(localStorage.getItem("listName"));
+        }
+        else{
+          model.list = [];
+          model.listArray = [];
+          model.listName = [];
+          localStorage.setItem("model", JSON.stringify(model.list));
+          localStorage.setItem("listArray", JSON.stringify(model.listArray));
+          localStorage.setItem("listName", JSON.stringify(model.listName));
+        }
+
+        function Input(props){
+          return <input type="text" value={props.value} onChange={props.handleChange} name={props.name}/>
+        }
+
+        function ListButton(props){
+          return <button onClick={()=>props.removeItem(props.index)}>x</button>
+        }
+
+        function ListText(props){
+          var style = {border: "1px solid #4EB1BA", width:props.width};
+          return(<div className="listText" style={style}>{props.text}</div>)
+        }
+
+        function List(props){
+          var items = props.items.map((item, index)=><ListItem text={item} key={index} index={index} removeItem={props.removeItem}/>);
+          return(
+            <ol>
+              {items}
+            </ol>
+          )
+        }
+
+        function ListItem(props){
+          var style={display: "flex"};
+          return(
+            <div style={style} className="listItems">
+              <ListButton index={props.index} removeItem={props.removeItem}/>
+              <ListText width={200} text={props.text}/>
+            </div>
+          )
+        }
+
+        function Chosen(props){
+          var style={color: "#E9E9E9"};
+          return(
+              <h3 style={style}>{props.item}</h3>
+          )
+        }
+        function Select(props){
+          let listName = props.listName.map((name, index)=> <option value={index}>{name}</option>);
+          return(
+            <div className="input-group input-group-lg select">
+              <label>
+                Choose your list
+                <div className="input-group-append">
+                <select value={props.listIndex} onChange={props.handleSelectChange}>
+                  <option>Unsaved List</option>
+                  {listName}
+                </select>
+                <button className="delListBtn" onClick={props.deleteList}>Delete List</button>
+                </div>
+              </label>
+            </div>
+          )
+        }
+
+        class App extends React.Component{
+          constructor(props){
+            super(props)
+            this.state = {value:"", items:props.model.list, chosen: "", listArray: props.model.listArray, listName:props.model.listName, listIndex:"Unsaved List"}
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSelectChange = this.handleSelectChange.bind(this);
+            this.deleteList = this.deleteList.bind(this);
+          }
+          handleChange(event){
+            this.setState({[event.target.name]:event.target.value});
+          }
+          addItem(){
+            if(isNaN(this.state.listIndex)){
+              let tempArray = this.state.items.slice();
+              tempArray.push(this.state.value);
+              this.setState({value:"", items:tempArray});
+              localStorage.setItem("model", JSON.stringify(tempArray));
+            }
+            else{
+              let tempListArray = this.state.listArray.slice();
+              tempListArray[this.state.listIndex].push(this.state.value);
+              this.setState({value:"", listArray:tempListArray});
+              localStorage.setItem("listArray", JSON.stringify(tempListArray));
+            }
+          }
+          removeItem(index){
+            if(isNaN(this.state.listIndex)){
+              let tempArray = this.state.items.slice();
+              tempArray.splice(index, 1);
+              this.setState({items:tempArray});
+              localStorage.setItem("model", JSON.stringify(tempArray));
+            }
+            else{
+              let tempListArray = this.state.listArray.slice();
+              tempListArray[this.state.listIndex].splice(index, 1);
+              this.setState({listArray:tempListArray});
+              localStorage.setItem("listArray", JSON.stringify(tempListArray));
+            }
+          }
+          chooseItem(){
+            if(isNaN(this.state.listIndex)){
+              let tempArray = this.state.items.slice();
+              let randomIndex = Math.floor(Math.random()*Math.floor(tempArray.length));
+              let chosen = tempArray[randomIndex];
+              tempArray.splice(randomIndex, 1);
+              this.setState({items:tempArray, chosen:chosen});
+              localStorage.setItem("model", JSON.stringify(tempArray));
+            }
+            else{
+              let tempListArray = this.state.listArray.slice();
+              let randomIndex = Math.floor(Math.random()*Math.floor(tempListArray[this.state.listIndex].length));
+              let chosen = tempListArray[this.state.listIndex][randomIndex];
+              tempListArray[this.state.listIndex].splice(randomIndex, 1);
+              this.setState({listArray:tempListArray, chosen:chosen});
+              localStorage.setItem("listArray", JSON.stringify(tempListArray));
+            }
+          }
+          removeAll(){
+            if(isNaN(this.state.listIndex)){
+              this.setState({value:"", items:[], chosen: ""});
+              localStorage.setItem("model", JSON.stringify([]));
+            }
+            else{
+              let tempListArray = this.state.listArray.slice();
+              tempListArray[this.state.listIndex] = [];
+              this.setState({value:"", listArray: tempListArray, chosen:""});
+              localStorage.setItem("listArray", JSON.stringify(tempListArray));
+            }
+          }
+          makeList(){
+            if(!this.state.value){
+              this.setState({value:"Enter name of list HERE"});
+              return;
+            }
+            else if(!this.state.items.length > 0){
+              this.setState({value:"Enter list items HERE"});
+              return;
+            }
+            let tempListName = this.state.listName.slice();
+            let tempListArray = this.state.listArray.slice();
+            let tempItemsArray = this.state.items.slice();
+            let tempName = this.state.value;
+            tempListName.push(tempName);
+            tempListArray.push(tempItemsArray);
+            this.setState({value:"", items:[], chosen: "", listArray:tempListArray, listIndex: "Unsaved List", listName:tempListName});
+            localStorage.setItem("listArray", JSON.stringify(tempListArray));
+            localStorage.setItem("listName", JSON.stringify(tempListName));
+            localStorage.setItem("model", JSON.stringify([]));
+          }
+          handleSelectChange(event){
+            this.setState({listIndex:event.target.value, chosen:""});
+          }
+          deleteList(){
+            if(isNaN(this.state.listIndex)){
+              return alert("Pick a list");
+            }
+            let tempListArray = this.state.listArray.slice();
+            let tempListName = this.state.listName.slice();
+            tempListArray.splice(this.state.listIndex, 1);
+            tempListName.splice(this.state.listIndex, 1);
+            this.setState({listArray:tempListArray, listName:tempListName, listIndex:"Unsaved List"});
+            localStorage.setItem("listArray", JSON.stringify(tempListArray));
+            localStorage.setItem("listName", JSON.stringify(tempListName));
+          }
+          
+          render(){
+            return(
+              <div className="container">
+                <h1>The Randomizer</h1>
+                <Select listName={this.state.listName} handleSelectChange={this.handleSelectChange} listIndex={this.state.listIndex} deleteList={this.deleteList}/>
+                <p>Enter items OR List name</p>
+                <form onSubmit={(event)=>{this.addItem(); event.preventDefault();}}>
+                  <div className="input-group input-group-lg text">
+                    <Input value={this.state.value} handleChange={this.handleChange} name="value" />
+                    <div className="input-group-append">
+                      <button type="submit" value="Submit">Submit</button>
+                    </div>
+                  </div>
+                </form>
+                <List items={isNaN(this.state.listIndex) ? this.state.items : this.state.listArray[this.state.listIndex]} removeItem={this.removeItem.bind(this)}/>
+                <button className="pickbtn" onClick={()=>this.chooseItem()}>Pick One</button>
+                <button onClick={()=>this.removeAll()}>Clear All</button>
+                <button className="saveListBtn" onClick={()=>this.makeList()}>Save List</button>
+                <Chosen item={this.state.chosen}/>
+              </div>
+            )
+          }
+        }
+
+
+        ReactDOM.render(
+          <App model={model}/>,
+          document.getElementById("root")
+        );
+      </script>
+  </body>
+</html>
